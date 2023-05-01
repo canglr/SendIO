@@ -1,0 +1,8 @@
+﻿<Properties StartupConfiguration="{B3EC6E40-DAAF-4946-8092-6B305C011156}|https">
+  <MonoDevelop.Ide.ItemProperties.src.Core.SendIO.Application FirstBuild="True" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.src.Presentation.SendIO.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.src.Infrastucture.SendIO.Persistence FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.src.Infrastucture.SendIO.Infrastucture FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.src.Core.SendIO.Domain FirstBuild="True" />
+</Properties>

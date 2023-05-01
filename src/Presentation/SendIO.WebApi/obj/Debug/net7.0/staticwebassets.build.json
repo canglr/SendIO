@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "a3/+6vilsZlJ0Fj+PuL/kPjSdMDr2BhkYAWWBJ6huMc=",
+  "Source": "SendIO.WebApi",
+  "BasePath": "_content/SendIO.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Dto\" />
+    <None Remove="Exceptions\" />
+    <None Remove="Interfaces\" />
+    <None Remove="Parameters\" />
+    <None Remove="Wrappers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dto\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Parameters\" />
+    <Folder Include="Wrappers\" />
+  </ItemGroup>
+</Project>
