@@ -1,8 +1,27 @@
 ﻿<Properties StartupConfiguration="{B3EC6E40-DAAF-4946-8092-6B305C011156}|https">
-  <MonoDevelop.Ide.ItemProperties.src.Core.SendIO.Application FirstBuild="True" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.src.Presentation.SendIO.WebUI PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.src.Presentation.SendIO.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" FirstBuild="True" />
   <MonoDevelop.Ide.ItemProperties.src.Infrastucture.SendIO.Persistence FirstBuild="True" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.src.Infrastucture.SendIO.Infrastucture FirstBuild="True" />
-  <MonoDevelop.Ide.ItemProperties.src.Core.SendIO.Domain FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.src.Presentation.SendIO.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="SendIO" expanded="True">
+            <Node name="src" expanded="True">
+              <Node name="Core" expanded="True" />
+              <Node name="Infrastucture" expanded="True" />
+              <Node name="Presentation" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
 </Properties>

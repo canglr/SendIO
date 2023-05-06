@@ -12,6 +12,7 @@
     <None Remove="Interfaces\" />
     <None Remove="Parameters\" />
     <None Remove="Wrappers\" />
+    <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dto\" />
@@ -19,5 +20,9 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Parameters\" />
     <Folder Include="Wrappers\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SendIO.Domain\SendIO.Domain.csproj" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,15 @@
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/bin/Debug/net7.0/SendIO.Application.deps.json
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/bin/Debug/net7.0/SendIO.Application.dll
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/bin/Debug/net7.0/SendIO.Application.pdb
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/bin/Debug/net7.0/SendIO.Domain.dll
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/bin/Debug/net7.0/SendIO.Domain.pdb
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/obj/Debug/net7.0/SendIO.Application.csproj.AssemblyReference.cache
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/obj/Debug/net7.0/SendIO.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/obj/Debug/net7.0/SendIO.Application.AssemblyInfoInputs.cache
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/obj/Debug/net7.0/SendIO.Application.AssemblyInfo.cs
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/obj/Debug/net7.0/SendIO.Application.csproj.CoreCompileInputs.cache
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/obj/Debug/net7.0/SendIO.Application.csproj.CopyComplete
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/obj/Debug/net7.0/SendIO.Application.dll
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/obj/Debug/net7.0/refint/SendIO.Application.dll
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/obj/Debug/net7.0/SendIO.Application.pdb
+/Users/necipguler/Projects/SendIO/src/Core/SendIO.Application/obj/Debug/net7.0/ref/SendIO.Application.dll
