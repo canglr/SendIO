@@ -17,10 +17,10 @@ namespace SendIO.Persistence.Repositories
             Context = context;
         }
 
-        public async Task<int> Add(TEntity entity)
+        public async Task<Guid> Add(TEntity entity)
         {
             await Context.Set<TEntity>().AddAsync(entity);
-            return 1;
+            return entity.Id;
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
@@ -41,7 +41,7 @@ namespace SendIO.Persistence.Repositories
         public async Task<int> Update(TEntity entity)
         {
             Context.Entry(entity).State = EntityState.Modified;
-            return await Context.SaveChangesAsync();
+            return 1;
         }
 
     }

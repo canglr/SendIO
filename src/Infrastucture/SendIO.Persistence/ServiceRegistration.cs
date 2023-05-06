@@ -13,7 +13,7 @@ namespace SendIO.Persistence
 	public static class ServiceRegistration
 	{
 
-		public static IServiceCollection AddInfrastructureRegistration(this IServiceCollection services, IConfiguration configuration)
+		public static IServiceCollection AddPersistenceRegistration(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddDbContext<SendIOContext>(conf =>
 			{
