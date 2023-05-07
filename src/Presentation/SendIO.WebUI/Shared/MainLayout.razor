@@ -1,18 +1,32 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+                <span class="fs-4">SendIO</span>
+            </a>
+
+            <NavMenu />
         </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
+
+    </header>
+
+    <main>
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">File Upload</h4>
+            </div>
+            <div class="card-body">
+                @Body
+            </div>
+        </div>
+
+
     </main>
+
+
 </div>
 

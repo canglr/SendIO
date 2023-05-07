@@ -1,10 +1,144 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@using System.Net.Http.Headers;
+@using SendIO.WebUI.Model;
+@inject HttpClient Http;
+@inject IJSRuntime JSRuntime;
 
-<h1>Hello, world!</h1>
+<PageTitle>File Upload</PageTitle>
+<EditForm Model=@fileUpload OnSubmit="@SubmitEventHandler">
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Title</label>
+        <InputText class="form-control" @bind-Value=fileUpload.title placeholder="Hello world" />
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+        <InputTextArea class="form-control" @bind-Value=fileUpload.description rows="3" />
+    </div>
 
-Welcome to your new app.
+    <div class="mb-3">
+        <InputFile class="form-control" type="file" OnChange="@OnChooseFile" multiple />
+    </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    <button type="submit" class="w-100 btn btn-lg btn-outline-primary">@uploadState</button>
 
+    @if (displayValidationErrorMessages)
+    {
+        <div class="col-md-4" style="margin-top:10px">
+            <label>Validation Messages: </label>
+            <ValidationSummary />
+        </div>
+    }
+
+    @if (uploadLinkState)
+    {
+        <div class="card mt-3">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-body-secondary">Your share link is ready</h6>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" @bind-value=uploadLink aria-describedby="button-addon2" disabled>
+                    <button class="btn btn-outline-primary" @onclick="@linkCopy" type="button" id="button-addon2">Copy</button>
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+</EditForm>
+
+@code {
+    FileUpload fileUpload = new FileUpload();
+    EditContext? context;
+    bool displayValidationErrorMessages = false;
+    InputFileChangeEventArgs? _selectedFile;
+    private int maxAllowedFiles = int.MaxValue;
+    private long maxFileSize = long.MaxValue;
+    private string uploadState = "Upload";
+    private string uploadLink = "";
+    private bool uploadLinkState = false;
+
+    protected override Task OnInitializedAsync()
+    {
+        context = new EditContext(fileUpload);
+        return base.OnInitializedAsync();
+    }
+
+    private async void SubmitEventHandler(EditContext context)
+    {
+        if (context.Validate())
+        {
+            displayValidationErrorMessages = false;
+            Console.WriteLine("test3");
+
+            //upload
+
+            await SubmitFileAsync();
+            //upload
+
+
+
+        }
+        else
+        {
+            displayValidationErrorMessages = true;
+            Console.WriteLine("test2");
+        }
+    }
+
+    public void OnChooseFile(InputFileChangeEventArgs e)
+    {
+        _selectedFile = e;
+    }
+
+
+    public async Task SubmitFileAsync()
+    {
+        uploadState = "Uploading...";
+        using var content = new MultipartFormDataContent();
+
+
+        foreach (var file in _selectedFile.GetMultipleFiles(maxAllowedFiles))
+        {
+            var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+            content.Add(
+                content: fileContent,
+                fileName: file.Name,
+                name: "\"files\""
+                );
+            content.Add(new StringContent(fileUpload.title ?? ""), "\"title\"");
+            content.Add(new StringContent(fileUpload.description ?? ""), "\"description\"");
+        }
+        var response = await Http.PostAsync("https://localhost:7161/api/FileHead/Upload", content);
+        var uploadresult = await response.Content.ReadFromJsonAsync<FileUploadResult>();
+        Console.WriteLine(uploadresult?.status);
+        Console.WriteLine(fileUpload.title);
+
+        if (uploadresult?.status == "OK")
+        {
+            clearForm();
+            uploadLinkState = true;
+            uploadLink = "https://localhost:7150/share/" + uploadresult.id.ToString();
+            StateHasChanged();
+        }
+
+    }
+
+    private void clearForm()
+    {
+        fileUpload = new FileUpload();
+        uploadState = "Upload";
+    }
+
+    private async Task CopyTextToClipboard(string text)
+    {
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", text);
+    }
+
+    private async void linkCopy()
+    {
+        await CopyTextToClipboard(uploadLink);
+    }
+
+}

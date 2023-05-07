@@ -73,8 +73,8 @@
       "PackagePath": "staticwebassets/index.html"
     },
     {
-      "Id": "/Users/necipguler/Projects/SendIO/src/Presentation/SendIO.WebUI/wwwroot/sample-data/weather.json",
-      "PackagePath": "staticwebassets/sample-data/weather.json"
+      "Id": "/Users/necipguler/Projects/SendIO/src/Presentation/SendIO.WebUI/wwwroot/js/app.js",
+      "PackagePath": "staticwebassets/js/app.js"
     },
     {
       "Id": "obj/Debug/net7.0/staticwebassets/msbuild.SendIO.WebUI.Microsoft.AspNetCore.StaticWebAssets.props",

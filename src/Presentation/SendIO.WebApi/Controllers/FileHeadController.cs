@@ -60,6 +60,9 @@ namespace SendIO.WebApi.Controllers
         [RequestFormLimits(MultipartBodyLengthLimit = 2000 * 1024 * 1024)]
         public async Task<IActionResult> Upload(FileHeadUploadDTO fileHeadUploadDTO, List<IFormFile> files)
         {
+            if (files.Count == 0)
+                return Ok(new { status = "FAIL" });
+
             Guid id = await _unitOfWork.fileHeadRepository.Add(new FileHead { title = fileHeadUploadDTO.title, description = fileHeadUploadDTO.description, enddate = DateTime.Now.AddDays(7) });
             _unitOfWork.Complete();
 

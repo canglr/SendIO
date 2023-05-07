@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "wlzHkL69E6ZaUZEgOBUHsWEoTldwu2XNub2T6+9MSwM=",
+  "Hash": "CxA3gv7o6gvBOkVB0uoTWDWnkK3G1DRqJiJs7al5e1A=",
   "Source": "SendIO.WebUI",
   "BasePath": "/",
   "Mode": "Root",
@@ -7157,12 +7157,12 @@
       "OriginalItemSpec": "wwwroot/index.html"
     },
     {
-      "Identity": "/Users/necipguler/Projects/SendIO/src/Presentation/SendIO.WebUI/wwwroot/sample-data/weather.json",
+      "Identity": "/Users/necipguler/Projects/SendIO/src/Presentation/SendIO.WebUI/wwwroot/js/app.js",
       "SourceId": "SendIO.WebUI",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/necipguler/Projects/SendIO/src/Presentation/SendIO.WebUI/wwwroot/",
       "BasePath": "/",
-      "RelativePath": "sample-data/weather.json",
+      "RelativePath": "js/app.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -7171,7 +7171,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/sample-data/weather.json"
+      "OriginalItemSpec": "wwwroot/js/app.js"
     }
   ]
 }
