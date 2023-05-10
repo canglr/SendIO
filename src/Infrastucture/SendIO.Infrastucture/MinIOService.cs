@@ -57,11 +57,11 @@ namespace SendIO.Infrastucture
             string url = "";
             try
             {
-                var args = new PresignedPutObjectArgs()
+                var args = new PresignedGetObjectArgs()
                     .WithBucket(this.Bucketname)
                     .WithObject(filename)
                     .WithExpiry(minute * minute * 24);
-                url = await _client.PresignedPutObjectAsync(args).ConfigureAwait(false);
+                url = await _client.PresignedGetObjectAsync(args);
                 
             }
             catch (MinioException e)

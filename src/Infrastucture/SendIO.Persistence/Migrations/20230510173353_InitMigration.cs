@@ -20,8 +20,8 @@ namespace SendIO.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     enddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -39,6 +39,8 @@ namespace SendIO.Persistence.Migrations
                     FileHeadId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     originalname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     generatedname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    size = table.Column<long>(type: "bigint", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

@@ -12,7 +12,7 @@ using SendIO.Persistence.Context;
 namespace SendIO.Persistence.Migrations
 {
     [DbContext(typeof(SendIOContext))]
-    [Migration("20230501134825_InitMigration")]
+    [Migration("20230510173353_InitMigration")]
     partial class InitMigration
     {
         /// <inheritdoc />
@@ -46,6 +46,13 @@ namespace SendIO.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("size")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FileHeadId");
@@ -64,14 +71,12 @@ namespace SendIO.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("enddate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

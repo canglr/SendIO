@@ -9,6 +9,10 @@ namespace SendIO.Domain.Entities
 
 		public string generatedname { get; set; }
 
+		public string type { get; set; }
+
+		public long size { get; set; }
+
 		public FileHead fileHead { get; set; }
 
 	}

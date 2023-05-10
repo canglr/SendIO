@@ -17,6 +17,7 @@ namespace SendIO.Application.Interfaces
 
         Task<TEntity> GetById(Guid id);
 
+        Task<IEnumerable<TEntity>> FindBy(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
     }
 }
 

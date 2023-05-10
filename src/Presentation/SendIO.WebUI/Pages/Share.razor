@@ -1,19 +1,117 @@
-﻿@page "/counter"
+﻿@page "/share/{id:guid}"
+@inject HttpClient Http;
+@using WebUI.Model;
+@inject IJSRuntime JSRuntime;
+<PageTitle>Share</PageTitle>
 
-<PageTitle>Counter</PageTitle>
+@if (_loading)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            @if (shareresult.title != null)
+            {
+                <h5 class="card-title">@shareresult.title</h5>
+            }
 
-<h1>Counter</h1>
+            @if (shareresult.description != null)
+            {
+                <p class="card-text">@shareresult.description</p>
+            }
 
-<p role="status">Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
-@code {
-    private int currentCount = 0;
+            <ul class="list-group">
+                @foreach (var file in shareresult.FileContents)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @file.originalname
 
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
+                        @if (!_isDeleted)
+                        {
+                            <button @onclick="@(async () => await getDownload(file.Id))" class="btn btn-outline-primary btn-sm">Download</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-outline-secondary btn-sm" disabled>Expired</button>
+                        }
+                    </li>
+                }
+
+            </ul>
+
+
+        </div>
+        <div class="card-footer text-body-secondary text-center">
+            @if (!_isDeleted)
+            {
+                <small>will be deleted after @((shareresult.enddate - DateTime.Now).Days) days</small>
+            }
+            else
+            {
+                <small>The files were deleted because the connection expired</small>
+            }
+
+                
+        </div>
+    </div>
 }
 
+
+
+
+
+@code {
+
+    [Parameter]
+    public Guid id { get; set; }
+
+    private FileHeadResult shareresult = new();
+
+    private bool _loading = true;
+
+    private bool _isDeleted = false;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await getShare();
+        deleted();
+    }
+
+    private async Task getShare()
+    {
+        var response = await Http.GetAsync("https://localhost:7161/api/FileHead/" + id.ToString());
+        shareresult = await response.Content.ReadFromJsonAsync<FileHeadResult>();
+        _loading = false;
+    }
+
+    private async Task getDownload(Guid fileid)
+    {
+        var response = await Http.GetAsync("https://localhost:7161/api/FileHead/Share/" + fileid.ToString());
+        var result = await response.Content.ReadFromJsonAsync<FileShareResult>();
+        Console.WriteLine(result.link);
+        await JSRuntime.InvokeAsync<string>("downloadFile", result.link);
+    }
+
+    private void deleted()
+    {
+        if (shareresult.enddate >= DateTime.Now)
+        {
+            _isDeleted = false;
+        }
+        else
+        {
+            _isDeleted = true;
+        }
+    }
+
+
+
+}

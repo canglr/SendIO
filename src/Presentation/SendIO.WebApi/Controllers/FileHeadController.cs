@@ -43,8 +43,8 @@ namespace SendIO.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<FileHead> Get(Guid id)
         {
-            var data = await _unitOfWork.fileHeadRepository.GetById(id);
-            return data;
+            var data = await _unitOfWork.fileHeadRepository.FindBy(x => x.Id == id, z => z.FileContents);
+            return data.First();
         }
 
 
@@ -76,7 +76,7 @@ namespace SendIO.WebApi.Controllers
                         streamdata.Position = 0;
 
                         string filename = await _minIO.Add(id.ToString(), streamdata, file.FileName, file.ContentType);
-                        await _unitOfWork.fileContentRepository.Add(new FileContent { originalname = file.FileName, generatedname = filename, FileHeadId = id });
+                        await _unitOfWork.fileContentRepository.Add(new FileContent { originalname = file.FileName, generatedname = filename, type = file.ContentType, size = file.Length ,FileHeadId = id });
                         _unitOfWork.Complete();
                     }
                 }
@@ -86,7 +86,7 @@ namespace SendIO.WebApi.Controllers
             return Ok(new { status = "OK", id = id });
         }
 
-        [HttpPost("Share")]
+        [HttpGet("Share/{fileid}")]
         public async Task<IActionResult> Share(string fileid)
         {
             string filename="";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,22 @@ namespace SendIO.Persistence.Repositories
         {
             await Context.Set<TEntity>().AddAsync(entity);
             return entity.Id;
+        }
+
+        public async Task<IEnumerable<TEntity>> FindBy(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = Context.Set<TEntity>();
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            foreach (var includeProperty in includes)
+            {
+                query = query.Include(includeProperty);
+            }
+            return await query.ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()

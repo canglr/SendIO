@@ -1,19 +1,47 @@
 ﻿@page "/history"
-
+@using Blazored.LocalStorage;
+@inject Blazored.LocalStorage.ILocalStorageService localStore;
 <PageTitle>History</PageTitle>
 
-<h1>Counter</h1>
-
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<ul class="list-group">
+    @if (historys != null)
+    {
+        @foreach (KeyValuePair<string, string> history in historys)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="@history.Value">@history.Key</a>
+                <button @onclick="@(async () => await getDelete(history.Key))" class="btn btn-outline-danger btn-sm">Delete from history</button>
+            </li>
+        }
+    }
+</ul>
 
 @code {
-    private int currentCount = 0;
-
-    private void IncrementCount()
+    Dictionary<string, string> historys = new Dictionary<string, string>();
+    protected async override Task OnInitializedAsync()
     {
-        currentCount++;
+        await getAll();
+    }
+
+    private async Task getAll()
+    {
+        historys.Clear();
+        int count = await localStore.LengthAsync();
+
+        for (int i = count-1; i >= 0; i--)
+        {
+            string key = await localStore.KeyAsync(i);
+            string valeu = await localStore.GetItemAsync<string>(key);
+            historys.Add(key.ToString(), valeu.ToString());
+        }
+        StateHasChanged();
+    }
+
+    private async Task getDelete(string key)
+    {
+        await localStore.RemoveItemAsync(key);
+        await getAll();
+        StateHasChanged();
     }
 }
 

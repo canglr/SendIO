@@ -4,31 +4,25 @@
 @using SendIO.WebUI.Model;
 @inject HttpClient Http;
 @inject IJSRuntime JSRuntime;
+@using Blazored.LocalStorage;
+@inject Blazored.LocalStorage.ILocalStorageService localStore;
 
 <PageTitle>File Upload</PageTitle>
 <EditForm Model=@fileUpload OnSubmit="@SubmitEventHandler">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
-        <InputText class="form-control" @bind-Value=fileUpload.title placeholder="Hello world" />
+        <InputText class="form-control" @bind-Value=fileUpload.title placeholder="optional" />
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-        <InputTextArea class="form-control" @bind-Value=fileUpload.description rows="3" />
+        <InputTextArea class="form-control" @bind-Value=fileUpload.description placeholder="optional" rows="3" />
     </div>
 
     <div class="mb-3">
         <InputFile class="form-control" type="file" OnChange="@OnChooseFile" multiple />
     </div>
 
-    <button type="submit" class="w-100 btn btn-lg btn-outline-primary">@uploadState</button>
-
-    @if (displayValidationErrorMessages)
-    {
-        <div class="col-md-4" style="margin-top:10px">
-            <label>Validation Messages: </label>
-            <ValidationSummary />
-        </div>
-    }
+    <button type="submit" class="w-100 btn btn-lg btn-outline-primary" disabled=@upload>@uploadState</button>
 
     @if (uploadLinkState)
     {
@@ -50,10 +44,10 @@
 @code {
     FileUpload fileUpload = new FileUpload();
     EditContext? context;
-    bool displayValidationErrorMessages = false;
     InputFileChangeEventArgs? _selectedFile;
     private int maxAllowedFiles = int.MaxValue;
     private long maxFileSize = long.MaxValue;
+    private bool upload = true;
     private string uploadState = "Upload";
     private string uploadLink = "";
     private bool uploadLinkState = false;
@@ -68,33 +62,32 @@
     {
         if (context.Validate())
         {
-            displayValidationErrorMessages = false;
-            Console.WriteLine("test3");
-
-            //upload
-
             await SubmitFileAsync();
-            //upload
-
-
-
         }
         else
         {
-            displayValidationErrorMessages = true;
-            Console.WriteLine("test2");
+
         }
     }
 
     public void OnChooseFile(InputFileChangeEventArgs e)
     {
         _selectedFile = e;
+        if(e.FileCount > 0)
+        {
+            upload = false;
+    }
+        else
+        {
+            upload = true;
+        }
     }
 
 
     public async Task SubmitFileAsync()
     {
         uploadState = "Uploading...";
+        upload = true;
         using var content = new MultipartFormDataContent();
 
 
@@ -112,14 +105,13 @@
         }
         var response = await Http.PostAsync("https://localhost:7161/api/FileHead/Upload", content);
         var uploadresult = await response.Content.ReadFromJsonAsync<FileUploadResult>();
-        Console.WriteLine(uploadresult?.status);
-        Console.WriteLine(fileUpload.title);
 
         if (uploadresult?.status == "OK")
         {
             clearForm();
             uploadLinkState = true;
-            uploadLink = "https://localhost:7150/share/" + uploadresult.id.ToString();
+            uploadLink = Http.BaseAddress + "share/" + uploadresult.id.ToString();
+            await localAdd(DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss tt"),uploadLink);
             StateHasChanged();
         }
 
@@ -129,6 +121,7 @@
     {
         fileUpload = new FileUpload();
         uploadState = "Upload";
+        upload = false;
     }
 
     private async Task CopyTextToClipboard(string text)
@@ -139,6 +132,11 @@
     private async void linkCopy()
     {
         await CopyTextToClipboard(uploadLink);
+    }
+
+    private async Task localAdd(string key, string value)
+    {
+        await localStore.SetItemAsync(key, value);
     }
 
 }
