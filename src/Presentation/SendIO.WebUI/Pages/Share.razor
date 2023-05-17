@@ -1,7 +1,11 @@
 ﻿@page "/share/{id:guid}"
 @inject HttpClient Http;
 @using WebUI.Model;
+@using WebUI.Helper;
 @inject IJSRuntime JSRuntime;
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
 <PageTitle>Share</PageTitle>
 
 @if (_loading)
@@ -36,7 +40,7 @@ else
 
                         @if (!_isDeleted)
                         {
-                            <button @onclick="@(async () => await getDownload(file.Id))" class="btn btn-outline-primary btn-sm">Download</button>
+                            <button @onclick="@(async () => await getDownload(file.Id,file.originalname,file.size))" class="btn btn-outline-primary btn-sm">Download</button>
                         }
                         else
                         {
@@ -65,6 +69,30 @@ else
 }
 
 
+<!-- Modal -->
+<div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="downloadModalLabel">@downloadFileName</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (bool.Parse(Configuration["downloadWarning"]))
+                {
+                    <div class="alert alert-warning" role="alert">
+                        @Configuration["downloadWarningMessage"]
+                    </div>
+                }
+
+                <a class="btn btn-primary w-100" href="@downloadLink" role="button" download="@downloadFileName">Download Now (@downloadSize)</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -79,6 +107,12 @@ else
 
     private bool _isDeleted = false;
 
+    private string downloadFileName = "";
+
+    private string downloadLink = "";
+
+    private string downloadSize = "";
+
     protected async override Task OnInitializedAsync()
     {
         await getShare();
@@ -87,18 +121,28 @@ else
 
     private async Task getShare()
     {
-        var response = await Http.GetAsync("https://localhost:7161/api/FileHead/" + id.ToString());
+        var response = await Http.GetAsync(Configuration["api"]+"/api/FileHead/" + id.ToString());
         shareresult = await response.Content.ReadFromJsonAsync<FileHeadResult>();
         _loading = false;
     }
 
-    private async Task getDownload(Guid fileid)
+    private async Task getDownload(Guid fileid, string filename, long filesize)
     {
-        var response = await Http.GetAsync("https://localhost:7161/api/FileHead/Share/" + fileid.ToString());
+        var response = await Http.GetAsync(Configuration["api"]+"/api/FileHead/Share/" + fileid.ToString());
         var result = await response.Content.ReadFromJsonAsync<FileShareResult>();
-        Console.WriteLine(result.link);
-        await JSRuntime.InvokeAsync<string>("downloadFile", result.link);
+        //await JSRuntime.InvokeAsync<string>("downloadFile", result.link);
+        downloadLink = result.link;
+        downloadFileName = filename;
+        downloadSize = Helper.ToSizeString(filesize);
+        await getDownloadModal();
     }
+
+    private async Task getDownloadModal()
+    {
+        await JSRuntime.InvokeAsync<string>("openModal", "#downloadModal");
+        StateHasChanged();
+    }
+
 
     private void deleted()
     {

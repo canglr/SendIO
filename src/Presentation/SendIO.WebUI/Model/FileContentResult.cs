@@ -10,6 +10,10 @@ namespace SendIO.WebUI.Model
         public string originalname { get; set; }
 
         public string generatedname { get; set; }
+
+        public long size { get; set; }
+
+        public string type { get; set; }
     }
 }
 

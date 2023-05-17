@@ -31,28 +31,12 @@ namespace SendIO.WebApi.Controllers
             _unitOfWork = unitOfWork;
             _minIO = minIO;
         }
-        // GET: api/values
-        [HttpGet]
-        public async Task<IEnumerable<FileHead>> Get()
-        {
-            var data = await _unitOfWork.fileHeadRepository.GetAll();
-            return (IEnumerable<FileHead>)data;
-        }
-
-        // GET api/values/5
+        
         [HttpGet("{id}")]
         public async Task<FileHead> Get(Guid id)
         {
             var data = await _unitOfWork.fileHeadRepository.FindBy(x => x.Id == id, z => z.FileContents);
             return data.First();
-        }
-
-
-        [HttpPost("Add")]
-        public async void Add([FromBody] FileHead fileHead)
-        {
-            var id = await _unitOfWork.fileHeadRepository.Add(fileHead);
-            _unitOfWork.Complete();
         }
 
         [HttpPost("Upload")]

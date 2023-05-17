@@ -1,10 +1,12 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
 <div class="container py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
             <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-                <span class="fs-4">SendIO</span>
+                <span class="fs-4">@Configuration["brand"]</span>
             </a>
 
             <NavMenu />
@@ -16,7 +18,7 @@
     <main>
         <div class="card mb-4 rounded-3 shadow-sm">
             <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">Title</h4>
+                <h4 class="my-0 fw-normal"></h4>
             </div>
             <div class="card-body">
                 @Body
@@ -28,4 +30,11 @@
 
 
 </div>
+@if (bool.Parse(Configuration["demoMode"]))
+{
+    <div class="alert alert-primary fixed-bottom m-3" role="alert">
+        @Configuration["demoModeMessage"]
+    </div>
+
+}
 
