@@ -34,7 +34,7 @@ app.UseCors(builder => builder
        .AllowAnyOrigin()
 );
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

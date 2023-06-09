@@ -3,6 +3,11 @@
 
 SendIO geçici süreli dosya depolama ve paylaşma uygulamasıdır.
 
+## Özellikler
+- Çoklu dosya yüklemesini destekler.
+- Yüklemiş olduğunuz dosyaların bağlantı adresini göndererek paylaşabilirsiniz.
+- Klasik dosya saklama yöntemleri yerine “Minio File Object Storage” sunucusunu kullanarak dosyalarınızı saklar.
+- Yüklemiş olduğunuz dosyalar otomatik olarak 7 gün sonra silinir.
 
 ## Gereksinimler
 
@@ -15,6 +20,7 @@ SendIO geçici süreli dosya depolama ve paylaşma uygulamasıdır.
 
 ![Uygulama Ekran Görüntüsü](https://github.com/canglr/SendIO/blob/9516b879103f4fca67e972ec244fcffdb180a667/other/image/01.png)
 
+Demo: [https://sendio.gulernet.net/](https://sendio.gulernet.net/)
   
 ## Bilgisayarınızda Çalıştırın
 
@@ -93,8 +99,8 @@ services:
     volumes:
       - ./data:/data
     environment:
-      MINIO_BROWSER_REDIRECT_URL: http://console.s2.gulernet.net
-      MINIO_SERVER_URL: http://s2.gulernet.net
+      MINIO_BROWSER_REDIRECT_URL: http://console.file.gulernet.net:9001
+      MINIO_SERVER_URL: https://file.gulernet.net
       MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: Test12345
 ```
@@ -197,3 +203,4 @@ Arayüz adresi : http://localhost
 Api adresi : http://localhost:8080
 
 Adresleri örnek olarak yazdım. Kendi yapmış olduğunuz ayarlara göre değişiklik gösterir.
+

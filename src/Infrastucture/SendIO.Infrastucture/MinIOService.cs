@@ -25,20 +25,21 @@ namespace SendIO.Infrastucture
             this._client = new MinioClient()
                 .WithEndpoint(this.endPoint)
                 .WithCredentials(this.accessKey, this.secretKey)
-                .WithSSL(false)
+                .WithSSL(true)
                 .Build();
 
         }
 
         public async Task<string> Add(string folder,Stream file, string filename, string contenttype)
         {
-            FileInfo fileinfo = new FileInfo(filename);
-            string objectName = Guid.NewGuid().ToString() + fileinfo.Extension;
+            //FileInfo fileinfo = new FileInfo(filename);
+            //string objectName = Guid.NewGuid().ToString() + fileinfo.Extension;
+            //random dosya adı iptal edildi
             try
             {
                 var args = new PutObjectArgs()
                 .WithBucket(this.Bucketname)
-                    .WithObject(folder.Insert(folder.Length,"/")+objectName)
+                    .WithObject(folder.Insert(folder.Length,"/")+filename)
                     .WithObjectSize(file.Length)
                     .WithContentType(contenttype)
                     .WithStreamData(file);
@@ -49,7 +50,7 @@ namespace SendIO.Infrastucture
             {
                 Console.WriteLine($"[Bucket]  Exception: {e}");
             }
-            return objectName;
+            return filename;
         }
 
         public async Task<string> ShareLink(string filename, int minute)

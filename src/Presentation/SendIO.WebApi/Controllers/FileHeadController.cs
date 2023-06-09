@@ -75,7 +75,7 @@ namespace SendIO.WebApi.Controllers
         {
             string filename="";
             FileContent file = await _unitOfWork.fileContentRepository.GetById(Guid.Parse(fileid));
-            filename = file.FileHeadId.ToString() + "/" + file.generatedname;
+            filename = file.FileHeadId.ToString() + "/" + file.originalname;
             string link = await _minIO.ShareLink(filename,60);
             return Ok(new { status = "OK", link = link });
         }
